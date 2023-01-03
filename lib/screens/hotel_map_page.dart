@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:zambo_tour_app/models/hotel_model.dart';
 
 import '../models/activity_model.dart';
 import '../models/restaurant_model.dart';
@@ -8,13 +9,13 @@ const LatLng currentLocation = LatLng(6.9136, 122.0614);
 
 const LatLng dest1 = LatLng(6.9006, 122.0614);
 
-class RestaurantMapPage extends StatelessWidget {
-  const RestaurantMapPage({
+class HotelMapPage extends StatelessWidget {
+  const HotelMapPage({
     Key? key,
     required this.activity,
   }) : super(key: key);
 
-  final Activity activity;
+  final Hotel activity;
 
   @override
   Widget build(BuildContext context) {
@@ -24,17 +25,17 @@ class RestaurantMapPage extends StatelessWidget {
   }
 }
 
-class RestaurantPage extends StatelessWidget {
-  const RestaurantPage({
+class HotelPage extends StatelessWidget {
+  const HotelPage({
     Key? key,
-    required this.restaurant,
+    required this.hotel,
   }) : super(key: key);
-  final Restaurant restaurant;
+  final Hotel hotel;
 
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      _RestoMapPageState(restaurant: restaurant),
+      _RestoMapPageState(hotel: hotel),
     ]);
   }
 }
@@ -44,7 +45,8 @@ class _MapPageState extends StatelessWidget {
     Key? key,
     required this.activity,
   }) : super(key: key);
-  final Activity activity;
+
+  final Hotel activity;
 
   _MapPageState createState() => _MapPageState(activity: activity);
 
@@ -54,14 +56,14 @@ class _MapPageState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: SizedBox(
+      child: Container(
         child: Scaffold(
           appBar: AppBar(
             title: const Text("Map Page"),
             backgroundColor: const Color(0xFF231955),
           ),
           body: GoogleMap(
-            initialCameraPosition: const CameraPosition(
+            initialCameraPosition: CameraPosition(
               target: currentLocation,
               zoom: 16,
             ),
@@ -94,29 +96,26 @@ class _MapPageState extends StatelessWidget {
 class _RestoMapPageState extends StatelessWidget {
   _RestoMapPageState({
     Key? key,
-    required this.restaurant,
+    required this.hotel,
   }) : super(key: key);
-  final Restaurant restaurant;
+  final Hotel hotel;
 
-  _RestoMapPageState createState() =>
-      _RestoMapPageState(restaurant: restaurant);
+  _RestoMapPageState createState() => _RestoMapPageState(hotel: hotel);
 
-  late LatLng? location1 = restaurant.location;
+  late LatLng? location1 = hotel.location;
   late GoogleMapController _mapController;
-
   Map<String, Marker> _markers = {};
-
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: SizedBox(
+      child: Container(
         child: Scaffold(
           appBar: AppBar(
             title: const Text("Map Page"),
             backgroundColor: const Color(0xFF231955),
           ),
           body: GoogleMap(
-            initialCameraPosition: const CameraPosition(
+            initialCameraPosition: CameraPosition(
               target: currentLocation,
               zoom: 16,
             ),
@@ -142,6 +141,6 @@ class _RestoMapPageState extends StatelessWidget {
           snippet: 'Description of the Place',
         ));
     _markers[id] = marker;
-    _RestoMapPageState(restaurant: restaurant);
+    _RestoMapPageState(hotel: hotel);
   }
 }

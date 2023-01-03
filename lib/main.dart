@@ -1,4 +1,7 @@
 import 'package:zambo_tour_app/controller/authentication_controller.dart';
+import 'package:zambo_tour_app/controller/hotel_controller.dart';
+import 'package:zambo_tour_app/controller/restaurant_controller.dart';
+import 'package:zambo_tour_app/controller/tourist_spot_controller.dart';
 import 'package:zambo_tour_app/screens/about_screen.dart';
 import 'package:zambo_tour_app/screens/account_screen.dart';
 import 'package:zambo_tour_app/screens/home_screen.dart';
@@ -7,8 +10,9 @@ import 'package:zambo_tour_app/screens/recovery_password_screen.dart';
 import 'package:zambo_tour_app/screens/signin_screen.dart';
 import 'package:zambo_tour_app/screens/signup_screen.dart';
 import 'package:zambo_tour_app/screens/travel_screen.dart';
+import 'package:zambo_tour_app/screens/weather_screen.dart';
 import 'package:zambo_tour_app/utils/bindings_controller.dart';
-import 'package:zambo_tour_app/widgets/menu_screen.dart';
+import 'package:zambo_tour_app/screens/menu_screen.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:zambo_tour_app/screens/restaurant_screen.dart';
@@ -21,6 +25,9 @@ void main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Firebase.initializeApp();
   Get.put(Authentication());
+  Get.put(RestaurantController());
+  Get.put(HotelController());
+  Get.put(TouristSpotController());
   runApp(const TravelApp());
   FlutterNativeSplash.remove();
 }
@@ -36,10 +43,6 @@ class TravelApp extends StatelessWidget {
       initialRoute: '/',
       theme:
           ThemeData(primaryColor: Colors.green, primarySwatch: Colors.orange),
-      routes: {
-        ActivitiesScreen.routeName: (context) => const ActivitiesScreen(),
-        HotelsScreen.routeName: (context) => const HotelsScreen(),
-      },
       initialBinding: BindingsController(),
       home: const SigninScreen(),
       getPages: [
@@ -53,7 +56,8 @@ class TravelApp extends StatelessWidget {
         GetPage(name: '/travels', page: () => const TravelScreen()),
         GetPage(name: '/password', page: () => const RecoveryPasswordScreen()),
         GetPage(name: '/activities', page: () => const ActivitiesScreen()),
-        GetPage(name: '/hotels', page: () => const HotelsScreen()),
+        GetPage(name: '/hotels', page: () => const RestuarantScreen()),
+        GetPage(name: '/weather', page: () => const WeatherScreen()),
       ],
     );
   }

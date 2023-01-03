@@ -1,29 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:zambo_tour_app/controller/tourist_spot_controller.dart';
-import 'package:zambo_tour_app/widgets/custom_header.dart';
-import 'package:zambo_tour_app/widgets/text_widget.dart';
-import 'activity_details_screen.dart';
-import '../models/activity_model.dart';
 import 'package:get/get.dart';
+import 'package:zambo_tour_app/controller/hotel_controller.dart';
+import 'package:zambo_tour_app/models/hotel_model.dart';
+import 'package:zambo_tour_app/screens/hotel_detail_screen.dart';
+import 'package:zambo_tour_app/widgets/text_widget.dart';
+import '../widgets/custom_header.dart';
 
-class ActivitiesScreen extends StatelessWidget {
-  const ActivitiesScreen({Key? key}) : super(key: key);
+class HotelsScreen extends StatelessWidget {
+  const HotelsScreen({Key? key}) : super(key: key);
 
-  static const routeName = '/activities';
+  static const routeName = '/hotels';
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 50),
-          const CustomHeader(title: 'Tourist Spots'),
-          _ActivitiesMasonryGrid(
-            width: width,
+          const CustomHeader(title: 'Hotels'),
+          _HotelMasonryGrid(
+            width: Get.width,
           ),
         ],
       ),
@@ -31,8 +29,8 @@ class ActivitiesScreen extends StatelessWidget {
   }
 }
 
-class _ActivitiesMasonryGrid extends GetView<TouristSpotController> {
-  const _ActivitiesMasonryGrid({
+class _HotelMasonryGrid extends GetView<HotelController> {
+  const _HotelMasonryGrid({
     Key? key,
     this.masonryCardHeights = const [200, 250, 300],
     required this.width,
@@ -52,10 +50,10 @@ class _ActivitiesMasonryGrid extends GetView<TouristSpotController> {
       mainAxisSpacing: 10,
       crossAxisSpacing: 10,
       itemBuilder: (context, index) {
-        Activity activity = controller.list[index];
+        Hotel hotel = controller.list[index];
         return _buildActivityCard(
           context,
-          activity,
+          hotel,
           index,
         );
       },
@@ -64,7 +62,7 @@ class _ActivitiesMasonryGrid extends GetView<TouristSpotController> {
 
   InkWell _buildActivityCard(
     BuildContext context,
-    Activity activity,
+    Hotel hotel,
     int index,
   ) {
     return InkWell(
@@ -72,12 +70,12 @@ class _ActivitiesMasonryGrid extends GetView<TouristSpotController> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ActivityDetailsScreen(activity: activity),
+            builder: (context) => HotelDetailsScreen(hotel: hotel),
           ),
         );
       },
       child: Hero(
-        tag: '${activity.id}_${activity.title}',
+        tag: '${hotel.id}_${hotel.title}',
         child: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(15)),
           child: SizedBox(
@@ -89,7 +87,7 @@ class _ActivitiesMasonryGrid extends GetView<TouristSpotController> {
                   height: masonryCardHeights[index % 3],
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: NetworkImage(activity.imageUrl),
+                      image: NetworkImage(hotel.imageUrl),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -104,9 +102,9 @@ class _ActivitiesMasonryGrid extends GetView<TouristSpotController> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 8.0, top: 6),
                         child: TextWidget(
-                          title: activity.title.length > 18
-                              ? '${activity.title.substring(0, 18)} . . .'
-                              : activity.title,
+                          title: hotel.title.length > 18
+                              ? '${hotel.title.substring(0, 18)} . . .'
+                              : hotel.title,
                           color: Colors.black,
                           fontWeight: FontWeight.w600,
                         ),

@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-
+import 'package:zambo_tour_app/controller/restaurant_controller.dart';
+import 'package:get/get.dart';
+import 'package:zambo_tour_app/widgets/text_widget.dart';
 import '../models/restaurant_model.dart';
 import '../widgets/custom_header.dart';
 import 'restaurant_details_screen.dart';
 
-class HotelsScreen extends StatelessWidget {
-  const HotelsScreen({Key? key}) : super(key: key);
+class RestuarantScreen extends StatelessWidget {
+  const RestuarantScreen({Key? key}) : super(key: key);
 
   static const routeName = '/hotels';
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    List<Restaurant> restaurant = Restaurant.restaurants;
 
     return SingleChildScrollView(
       child: Column(
@@ -23,7 +24,6 @@ class HotelsScreen extends StatelessWidget {
           const CustomHeader(title: 'Restaurants'),
           _HotelMasonryGrid(
             width: width,
-            restaurants: restaurant,
           ),
         ],
       ),
@@ -31,17 +31,15 @@ class HotelsScreen extends StatelessWidget {
   }
 }
 
-class _HotelMasonryGrid extends StatelessWidget {
+class _HotelMasonryGrid extends GetView<RestaurantController> {
   const _HotelMasonryGrid({
     Key? key,
     this.masonryCardHeights = const [200, 250, 300],
     required this.width,
-    required this.restaurants,
   }) : super(key: key);
 
   final List<double> masonryCardHeights;
   final double width;
-  final List<Restaurant> restaurants;
 
   @override
   Widget build(BuildContext context) {
@@ -49,12 +47,12 @@ class _HotelMasonryGrid extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.all(10.0),
-      itemCount: 9,
+      itemCount: controller.list.length,
       crossAxisCount: 2,
       mainAxisSpacing: 10,
       crossAxisSpacing: 10,
       itemBuilder: (context, index) {
-        Restaurant restaurant = restaurants [index];
+        Restaurant restaurant = controller.list[index];
         return _buildActivityCard(
           context,
           restaurant,
@@ -65,44 +63,60 @@ class _HotelMasonryGrid extends StatelessWidget {
   }
 
   InkWell _buildActivityCard(
-      BuildContext context,
-      Restaurant restaurant,
-      int index,
-      ) {
+    BuildContext context,
+    Restaurant restaurant,
+    int index,
+  ) {
     return InkWell(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => HotelDetailsScreen(restaurant: restaurant),
+            builder: (context) =>
+                RestaurantDetailsScreen(restaurant: restaurant),
           ),
         );
       },
-      child: Column(
-        children: [
-          Hero(
-            tag: '${restaurant.id}_${restaurant.title}',
-            child: Container(
-              height: masonryCardHeights[index % 3],
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15.0),
-                image: DecorationImage(
-                  image: NetworkImage(restaurant.imageUrl),
-                  fit: BoxFit.cover,
-                ),
-              ),
+      child: Hero(
+        tag: '${restaurant.id}_${restaurant.title}',
+        child: ClipRRect(
+          borderRadius: const BorderRadius.all(Radius.circular(15)),
+          child: SizedBox(
+            height: masonryCardHeights[index % 3],
+            child: Stack(
+              children: [
+                Positioned.fill(
+                    child: Container(
+                  height: masonryCardHeights[index % 3],
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(restaurant.imageUrl),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                )),
+                Positioned(
+                    bottom: 0,
+                    left: 0,
+                    child: Container(
+                      width: Get.width,
+                      height: 30,
+                      color: Colors.white54,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8.0, top: 6),
+                        child: TextWidget(
+                          title: restaurant.title.length > 18
+                              ? '${restaurant.title.substring(0, 18)} . . .'
+                              : restaurant.title,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ))
+              ],
             ),
           ),
-          const SizedBox(height: 10),
-          Text(
-            restaurant.title,
-            maxLines: 3,
-            style: Theme.of(context)
-                .textTheme
-                .bodySmall!
-                .copyWith(color: Colors.black, fontWeight: FontWeight.bold),
-          ),
-        ],
+        ),
       ),
     );
   }

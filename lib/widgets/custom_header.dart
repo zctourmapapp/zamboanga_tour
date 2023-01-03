@@ -9,6 +9,7 @@ class CustomHeader extends StatelessWidget {
 
   final String title;
   final String subtitle;
+
   @override
   Widget build(BuildContext context) {
     return Padding(

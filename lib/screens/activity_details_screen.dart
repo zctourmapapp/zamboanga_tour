@@ -145,12 +145,12 @@ class _ActivityInformation extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => MapPage(
+                            builder: (context) => RestaurantMapPage(
                                   activity: activity,
                                 )));
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: const Color(0xFF231955),
+                    backgroundColor: const Color(0xFF231955),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15.0),
                     ),

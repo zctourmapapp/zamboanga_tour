@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:zambo_tour_app/controller/authentication_controller.dart';
 import 'package:zambo_tour_app/widgets/input_widget.dart';
 import 'package:get/get.dart';
@@ -22,13 +23,12 @@ class AccountScreen extends GetView<Authentication> {
       body: SingleChildScrollView(
         child: SizedBox(
           width: Get.width,
-          height: Get.height * 0.95,
+          height: Get.height * 0.9,
           child: Stack(
             children: [
               Positioned.fill(
                 child: SizedBox(
                   width: Get.width,
-                  height: Get.height,
                   child: Column(
                     children: [
                       SizedBox(
@@ -41,12 +41,28 @@ class AccountScreen extends GetView<Authentication> {
                               width: Get.width,
                               height: Get.height,
                               decoration: BoxDecoration(
-                                color: Colors.grey[300],
+                                color: Colors.grey[200],
                               ),
                               child: Container(
                                 width: Get.width,
                                 height: Get.height,
                                 color: Colors.black12,
+                                child: SizedBox(
+                                    width: 100,
+                                    height: 100,
+                                    child: Center(
+                                      child: CircleAvatar(
+                                        radius: 60,
+                                        child: TextWidget(
+                                          title: controller
+                                                  .user.value?.userName![0] ??
+                                              "U",
+                                          fontSize: 40,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black87,
+                                        ),
+                                      ),
+                                    )),
                               ),
                             )),
                             Positioned(
@@ -73,7 +89,9 @@ class AccountScreen extends GetView<Authentication> {
                                             Radius.circular(100))),
                                     child: Center(
                                       child: IconButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            Get.back();
+                                          },
                                           icon: const Icon(
                                             Icons.arrow_back_rounded,
                                             color: Colors.orange,
@@ -86,16 +104,35 @@ class AccountScreen extends GetView<Authentication> {
                       ),
                       SizedBox(
                         width: Get.width,
-                        height: Get.height * 0.7,
-                        child: Column(
-                          children: [
-                            InputWidget(
-                              controller: controller.name,
-                              textInputType: TextInputType.name,
-                              hintText: 'Full name',
-                              iconData: Icons.person,
-                            )
-                          ],
+                        height: Get.height * 0.6,
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.only(left: 18.0, right: 18.0),
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 80),
+                              InputWidget(
+                                controller: controller.name,
+                                textInputType: TextInputType.name,
+                                hintText: 'Full name',
+                                iconData: Icons.person,
+                              ),
+                              const SizedBox(height: 25),
+                              InputWidget(
+                                controller: controller.name,
+                                textInputType: TextInputType.name,
+                                hintText: 'Contact',
+                                iconData: Icons.contact_phone_rounded,
+                              ),
+                              const SizedBox(height: 25),
+                              InputWidget(
+                                controller: controller.name,
+                                textInputType: TextInputType.name,
+                                hintText: 'Email',
+                                iconData: Icons.email_rounded,
+                              ),
+                            ],
+                          ),
                         ),
                       )
                     ],

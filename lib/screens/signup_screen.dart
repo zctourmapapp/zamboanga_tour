@@ -72,14 +72,14 @@ class SignupScreen extends GetView<Authentication> {
                                 ),
                                 const SizedBox(height: 25),
                                 InputWidget(
-                                  controller: controller.password,
+                                  controller: controller.email,
                                   iconData: Icons.email,
                                   hintText: "Email",
                                   textInputType: TextInputType.emailAddress,
                                 ),
                                 const SizedBox(height: 25),
                                 InputWidget(
-                                  controller: controller.email,
+                                  controller: controller.password,
                                   iconData: Icons.lock,
                                   hintText: "Password",
                                   textInputType: TextInputType.visiblePassword,

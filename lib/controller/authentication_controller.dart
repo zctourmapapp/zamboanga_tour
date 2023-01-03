@@ -45,9 +45,15 @@ class Authentication extends GetxController {
 
   @override
   void onInit() {
-    // myLocation.listen((event) {
-    //   myCurrentLocation.value = LatLng(event.latitude!, event.longitude!);
-    // });
+    myLocation.listen((event) {
+      myCurrentLocation.value = LatLng(event.latitude!, event.longitude!);
+    });
+
+    firebaseAuth.authStateChanges().listen((userListener) {
+      if (userListener != null) {
+        requestGetUser();
+      }
+    });
 
     super.onInit();
   }
@@ -157,7 +163,7 @@ class Authentication extends GetxController {
       }
 
       newAccount.value = true;
-      UserCredential res = await firebaseAuth.createUserWithEmailAndPassword(
+      await firebaseAuth.createUserWithEmailAndPassword(
         email: email.text,
         password: password.text,
       );

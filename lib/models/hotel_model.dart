@@ -3,24 +3,24 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:zambo_tour_app/utils/geopoint_convertion.dart';
 import 'package:zambo_tour_app/utils/num_convertion.dart';
 
-class Restaurant {
+class Hotel {
   final String id;
   final String title;
   final String description;
   final String imageUrl;
   final double rating;
-  final LatLng? location;
+  final LatLng location;
 
-  const Restaurant({
+  const Hotel({
     required this.id,
     required this.title,
     required this.description,
     required this.imageUrl,
     required this.rating,
-    this.location,
+    required this.location,
   });
 
-  Restaurant.fromJson(Map<String, dynamic> res, String id)
+  Hotel.fromJson(Map<String, dynamic> res, String id)
       : this(
             id: id,
             title: res['title'] as String,

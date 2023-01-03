@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:zambo_tour_app/models/hotel_model.dart';
+import 'package:zambo_tour_app/screens/hotel_map_page.dart';
 import '../widgets/clipped_container.dart';
-import 'package:get/get.dart';
-import '../models/restaurant_model.dart';
 import 'map_page.dart';
+import 'package:get/get.dart';
 
-class RestaurantDetailsScreen extends StatelessWidget {
-  const RestaurantDetailsScreen({
+class HotelDetailsScreen extends StatelessWidget {
+  const HotelDetailsScreen({
     Key? key,
-    required this.restaurant,
+    required this.hotel,
   }) : super(key: key);
 
-  final Restaurant restaurant;
+  final Hotel hotel;
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +21,8 @@ class RestaurantDetailsScreen extends StatelessWidget {
         color: Colors.white,
         child: Column(
           children: [
-            _HotelImage(restaurant: restaurant),
-            _HotelInformation(restaurant: restaurant),
+            _HotelImage(hotel: hotel),
+            _HotelInformation(hotel: hotel),
           ],
         ),
       ),
@@ -32,10 +33,10 @@ class RestaurantDetailsScreen extends StatelessWidget {
 class _HotelImage extends StatelessWidget {
   const _HotelImage({
     Key? key,
-    required this.restaurant,
+    required this.hotel,
   }) : super(key: key);
 
-  final Restaurant restaurant;
+  final Hotel hotel;
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +44,8 @@ class _HotelImage extends StatelessWidget {
       children: [
         const ClippedContainer(height: 425),
         Hero(
-          tag: '${restaurant.id}_${restaurant.title}',
-          child: ClippedContainer(imageUrl: restaurant.imageUrl),
+          tag: '${hotel.id}_${hotel.title}',
+          child: ClippedContainer(imageUrl: hotel.imageUrl),
         ),
         Positioned(
             top: 50,
@@ -83,10 +84,10 @@ class _HotelImage extends StatelessWidget {
 class _HotelInformation extends StatelessWidget {
   const _HotelInformation({
     Key? key,
-    required this.restaurant,
+    required this.hotel,
   }) : super(key: key);
 
-  final Restaurant restaurant;
+  final Hotel hotel;
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +102,7 @@ class _HotelInformation extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              restaurant.title,
+              hotel.title,
               style: Theme.of(context)
                   .textTheme
                   .headlineSmall!
@@ -109,7 +110,7 @@ class _HotelInformation extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             RatingBar.builder(
-              initialRating: restaurant.rating,
+              initialRating: hotel.rating,
               minRating: 0,
               direction: Axis.horizontal,
               ignoreGestures: true,
@@ -131,7 +132,7 @@ class _HotelInformation extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              restaurant.description,
+              hotel.description,
               textAlign: TextAlign.justify,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
@@ -144,12 +145,12 @@ class _HotelInformation extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => RestaurantPage(
-                                  restaurant: restaurant,
+                            builder: (context) => HotelPage(
+                                  hotel: hotel,
                                 )));
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: const Color(0xFF231955),
+                    backgroundColor: const Color(0xFF231955),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15.0),
                     ),

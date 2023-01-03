@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zambo_tour_app/screens/activities_screen.dart';
+import 'package:zambo_tour_app/screens/hotel_screen.dart';
 import 'package:zambo_tour_app/screens/restaurant_screen.dart';
 import 'package:zambo_tour_app/widgets/text_widget.dart';
 import 'package:get/get.dart';
@@ -145,44 +146,16 @@ class _Home extends State<Home> with TickerProviderStateMixin {
               ),
               SizedBox(
                   width: double.maxFinite,
-                  height: Get.height * 0.749,
+                  height: Get.height * 0.709,
                   child: TabBarView(controller: tabController, children: const [
                     ActivitiesScreen(),
+                    RestuarantScreen(),
                     HotelsScreen(),
-                    ActivitiesScreen(),
                   ]))
             ],
           ),
         ),
       ),
     );
-  }
-}
-
-class CircleTabIndicator extends Decoration {
-  final Color color;
-  double radius;
-
-  CircleTabIndicator({required this.color, required this.radius});
-
-  @override
-  BoxPainter createBoxPainter([VoidCallback? onChanged]) {
-    return _CirclePainter(color: color, radius: radius);
-  }
-}
-
-class _CirclePainter extends BoxPainter {
-  final double radius;
-  late Color color;
-  _CirclePainter({required this.color, required this.radius});
-
-  @override
-  void paint(Canvas canvas, Offset offset, ImageConfiguration cfg) {
-    late Paint _paint;
-    _paint = Paint()..color = color;
-    _paint = _paint..isAntiAlias = true;
-    final Offset circleOffset =
-        offset + Offset(cfg.size!.width / 2, cfg.size!.height - radius);
-    canvas.drawCircle(circleOffset, radius, _paint);
   }
 }
